@@ -1,0 +1,56 @@
+<head><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script></head>
+
+
+<body> <div class="content-key-list"></div> </body>
+
+
+<script >
+
+var singleTreeStructJQ = function(key,tree){
+  var $last = $()
+  var keyBreak = key.split(".")
+  for(var i = keyBreak.length-1; i >=0; i--){
+    var $next = $("<ul></ul>")
+    $next.append("<br>")
+    var $li = $("<li class="+  keyBreak.slice(0,i+1).join("-")  + ">" + keyBreak[i] +"<br></li>")
+    $li.append($last)
+    $next.append($li)
+    $next.append("<br>")
+    $last = $next
+  }
+  $last.find("br").last().remove()
+  $(tree).html($last)
+}
+
+var new$el = function(key){
+  var $el = $("<ul><br><li class="+key+">" + key.split("-")[key.split("-").length - 1] + "</li><br></ul>")
+  return $el
+}
+
+var add2TreeJQ = function(key, tree){
+  if (!tree.find("." + key.split("."))[0]){
+    singleTreeStructJQ(key, tree)
+    return }
+  var keyBreak = key.split(".")
+  var values = tree.find("li").map(function(){return $(this).attr("class").replace(".","-")})
+  values = [].slice.call(values)
+  if (tree.find("."+keyBreak.join("-"))[0]){ return "overridden"}
+  for(var i = keyBreak.length-1; i >=0; i--){
+    if (values.indexOf(keyBreak.slice(0,i+1).join("-")) !== -1){
+      tree.find("."+keyBreak.slice(0,i+1).join("-")).append(new$el(keyBreak.join("-")))
+      break
+    }
+  }
+}
+
+var contentKeys = "content.landingpages.podcasts|content.landingpages.podcasts.android|content.landingpages.podcasts.android.code|content.landingpages.podcasts.android.offer|content.landingpages.podcasts.android.partner|content.landingpages.podcasts.android.products|content.landingpages.podcasts.brainson|content.landingpages.podcasts.brainson.code|content.landingpages.podcasts.brainson.offer|content.landingpages.podcasts.brainson.partner|content.landingpages.podcasts.brainson.products|content.landingpages.podcasts.flitetest|content.landingpages.podcasts.flitetest.code|content.landingpages.podcasts.flitetest.offer|content.landingpages.podcasts.flitetest.partner|content.landingpages.podcasts.flitetest.products|content.landingpages.podcasts.ijustine|content.landingpages.podcasts.ijustine.code|content.landingpages.podcasts.ijustine.offer|content.landingpages.podcasts.ijustine.partner|content.landingpages.podcasts.ijustine.products|content.landingpages.podcasts.kipkay|content.landingpages.podcasts.kipkay.code|content.landingpages.podcasts.kipkay.offer|content.landingpages.podcasts.kipkay.partner|content.landingpages.podcasts.kipkay.products|content.landingpages.podcasts.techquickie|content.landingpages.podcasts.techquickie.code|content.landingpages.podcasts.techquickie.offer|content.landingpages.podcasts.techquickie.partner".split("|")
+$(document).ready(function() {
+
+for (var i = 0; i<contentKeys.length; i++){
+  contentKey=prompt("please enter key")
+  add2TreeJQ(contentKey, $(".content-key-list"))
+}
+  $(".content-key-list").find("*").removeClass()
+})
+
+</script>

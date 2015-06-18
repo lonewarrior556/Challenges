@@ -1,0 +1,28 @@
+Analysis of algorithm.
+
+	I decided to make a Dictionary for alphabetical order because the built in orders of characters in python have ‘a’ != ‘A’
+I imported regular expressions, to easily replace the non desirable characters in my input, wile preserving, white space, numbers and letters. 
+
+I create 5 lists. 2 empt for values, 2 empty for indexes and one of length N. 
+
+With my first iteration over all the words, I separate the integers and words placing them into the empty lists, and keep track of them by placing their index in the appropriate index list. I convert the numbers regular integers, to easily sort them later.  
+I later sort the numbers array, and the words array given my order dictionary, individually.
+Last I zip the values with the indices of where that type of value should be found, and place them into my list of length N.
+I join and write that final list to my output-file   
+
+
+Given a string of N words as input. I would iterate over N, at worst 3 times.  I would do one sort of length N which is ln(N).
+total time ~ Constant + Read file(N) + iterate N(3 step in each) + ln(N) + iterate (# of numbers in  N) +  iterate N +  Write file(N)
+it would scale N+ln(N)
+ln(N) would become negligible given big inputs, algorithm would scale Linearly. 
+
+
+
+Possible optimizations: 
+	
+	Program would be slightly faster if "order" was fully written out i.e.. order = {‘a’:0, ‘A’:0, ‘b’:1 ….
+This would save the step of importing module “string” as well as running a few commands, however this will always be constant and 
+negligible with significantly long inputs.
+	It was not said if cases need to be preserved, I could have lowercased the whole input string, and not needed an order dictionary to compare values for sort.
+	Adding the sorted values back into an array could be broken early with a different approach. If I added values in order into the final list, once one of the lists I zipped is empty, I can concat the other one and don’t need to iterate over it.  
+ 	
